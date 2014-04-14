@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{= album.title }} - ZenPics</title>
+  <link rel="stylesheet" href="/assets/stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/stylesheets/styles.css">
+  <link rel="stylesheet" href="/assets/stylesheets/lightbox.css">
+</head>
+<body>
+  <!-- navigation bar -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#app-navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">ZenPics</a>
+      </div> <!-- navbar-header -->
+      <div class="collapse navbar-collapse" id="app-navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+        <li>
+          <span class="navbar-form navbar-right">
+            <button class="btn btn-success" data-toggle="modal" data-target="#create-album-modal">Create Album</button>
+          </span>
+        </li>
+        <li><a href="/home/">My Albums</a></li>
+        <li><a href="/logout/">Logout</a></li>
+      </ul>
+      </div><!-- navbar-collapse -->
+    </div><!-- container-fluid -->
+  </nav><!-- navbar -->  
+
+  <div class="container-fluid">
+    
+    <div class="row">
+      <div class="col-md-12">
+        <h2 id="albumInfo">{{= album.title }} <br>
+          <small>{{= album.description }}
+          <br><span id="albumPicturesCount">{{= pictures.length }}</span> Photos, Last Updated on {{= album.updated.toDateString() }}.</small>
+        </h2>
+        <hr>
+      </div> <!-- col-md-12 -->
+    </div> <!-- row  -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="btn-group">
+          <p>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#edit-album-modal"><span class="glyphicon glyphicon-cog"></span> Album Settings</button>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#upload-pictures-modal"><span class="glyphicon glyphicon-plus"></span> Add Pictures</button>
+            <button type="button" class="btn btn-danger" id="albumDeleteButton"><span class="glyphicon glyphicon-remove"></span> Delete this Album</button>
+          </p>
+        </div> <!-- button-group -->
+      </div> <!-- col-md-12 -->
+    </div> <!-- row -->
+
+    <div class="row">
+      {{ for(var i = pictures.length - 1; i >= 0; i--) { }}
+        <div class="col-md-3 img-col">
+          <a href="{{= pictures[i].url }}" data-lightbox="zenpics">
+            <img src="{{= pictures[i].thumbUrl }}" alt="Picture number {{= i + 1 }} in album {{= album.title }}" class="img-responsive">
+          </a>
+          <p>
+            <a download href="{{= pictures[i].url }}" class="btn btn-info btn-xs">
+              <span class="glyphicon glyphicon-cloud-download" title="Download this image"></span>
+            </a>
+            <a href="#" class="btn btn-danger btn-xs deletePictureButton" data-picture-id="{{= pictures[i]._id }}">
+              <span class="glyphicon glyphicon-remove" title="Delete this picture"></span>
+            </a>
+          </p>
+        </div>
+      {{ } }}
+    </div>
+  {{ include ../common/footer.ejs }}
+  </div> <!-- container fluid -->
+
+  {{ include create-album-modal.ejs }}
+  {{ include edit-album-modal.ejs }}
+  {{ include upload-pictures-modal.ejs }}
+  <div style="display:none"><input type="hidden" id="albumId" value="{{=album._id}}"></div>
+
+  <script src="/assets/javascripts/lib/jquery.min.js"></script>
+  <script src="/assets/javascripts/lib/bootstrap.min.js"></script>
+  <script src="/assets/javascripts/lib/lightbox-2.6.min.js"></script>
+  <script src="/assets/javascripts/create-album.js"></script>
+  <script src="/assets/javascripts/update-album.js"></script>
+  <script src="/assets/javascripts/upload-pictures.js"></script>
+
+</body>
+</html>

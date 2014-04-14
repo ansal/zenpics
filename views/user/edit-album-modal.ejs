@@ -1,0 +1,56 @@
+<div class="modal fade" id="edit-album-modal" tabindex="-1" role="dialog" aria-labelledby="create-album-modal-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="albumInfoModal">{{= album.title }} <br>
+          <small>{{= album.description }}, <span id="albumPicturesCount">{{= pictures.length }}</span> Photos, Last Updated on {{= album.updated.toDateString() }}.</small>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div role="form">
+          <div class="form-group">
+            <label for="editAlbumTitle">Album Title</label>
+            <input type="text" class="form-control" id="editAlbumTitle" placeholder="Title for your new album" value="{{= album.title }}">
+          </div>
+          <div class="form-group">
+            <label for="editAlbumDescription">Album Description</label>
+            <textarea class="form-control" id="editAlbumDescription" cols="10" rows="3">{{= album.description }}</textarea>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="albumSharedStatus" id="albumIsPrivate" value="private" {{ if(album.sharedStatus === 'private') { }} checked {{ } }} class="sharedStatusRadios">
+              <span class="bg-info"><strong>Private Album</strong></span> Only the persons of your choice (using email addresses) can see this album. <br>
+            </label>
+              <div {{ if(album.sharedStatus !== 'private') { }} style="display:none" {{ } }} id="allowedEmailIds">
+                <input type="text" class="form-control input-sm" placeholder="Type email of people who you want to share this album and press enter." id="newSharedEmailAddress">
+                <img src="/assets/img/loading-small.gif" alt="" id="newSharedEmailAddressLoading" style="display:none;">
+                <br>
+              </div>
+            <ul id="privateSharedEmailIds" {{ if(album.sharedStatus !== 'private') { }} style="display:none" {{ } }}>
+              {{ for(var i = 0; i < album.sharedEmails.length; i++) { }}
+              <li>{{= album.sharedEmails[i] }} <a href="#" class="text-danger sharedEmailRemove" data-email="{{= album.sharedEmails[i] }}">Remove</a>
+              {{ } }}
+            </ul>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="albumSharedStatus" id="albumIsLogin" value="login" {{ if(album.sharedStatus === 'loggedin') { }} checked {{ } }} class="sharedStatusRadios">
+              <span class="bg-warning"><strong>Loggedin Users Only</strong></span> Any user with a valid ZenPics account and url of this album can see this album.
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="albumSharedStatus" id="albumIsPublic" value="public" {{ if(album.sharedStatus === 'public') { }} checked {{ } }} class="sharedStatusRadios">
+              <span class="bg-success"><strong>Public Album</strong></span> Any person who has the url can view this album.
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="editAlbumButton">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
