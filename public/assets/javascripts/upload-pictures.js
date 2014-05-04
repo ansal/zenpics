@@ -2,6 +2,7 @@ function processNextFileInQueue() {
   $('#fileUploadProgressBarValue').css('width', '0');
   $('#fileUploadProgressBar').fadeIn();
   if(window.ZenPics.totalUploaded >= window.ZenPics.uploadFiles.length) {
+    $('#uploadPicturesButton').attr('disabled', false);
     $('#fileUploadProgressBar').fadeOut();
     window.location.reload();
     return;
