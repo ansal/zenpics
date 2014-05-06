@@ -48,32 +48,6 @@ function uploadImage(file, album) {
 }
 
 $(document).ready(function(){
-  $('#imagesToUpload').on('change', function(e){
-    var uploadImagesPreview = $('#uploadImagesPreview');
-    $(uploadImagesPreview).html('');
-    window.ZenPics = {
-      uploadFiles: files,
-      totalUploaded: 0
-    };
-    var files = e.target.files;
-    for(var i = 0; i < files.length; i++) {
-      if(! files[i].type.match('image.*')) {
-        continue;
-      }
-      var reader = new FileReader();
-      reader.onload = (function(theFile) {
-        return function(e) {
-          var html = [
-            '<span>',
-              '<img class="uploadImagesThumb" src="' + e.target.result + '">',
-            '</span>'
-          ]; 
-          $(uploadImagesPreview).append(html.join(''));
-        };
-      })(files[i]);
-      reader.readAsDataURL(files[i]);
-    }
-  });
   $('#uploadPicturesButton').on('click', function(e){
     $(this).attr('disabled', true);
     var files = $('#imagesToUpload').prop('files');
